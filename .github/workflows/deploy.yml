@@ -1,0 +1,37 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Ensure local directory exists
+        run: mkdir -p Dest/Dest_frontend
+
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.DEST_FRONTENDSECRET }}
+
+      - name: Clear npm cache
+        run: npm cache clean --force
+
+      - name: Pull latest changes from master
+        run: |
+          ssh -o StrictHostKeyChecking=no ec2-user@ec2-34-205-29-69.compute-1.amazonaws.com 'cd /home/ec2-user/Dest/Dest_frontend && git pull origin master'
+
+      - name: Install dependencies
+        run: |
+          ssh -o StrictHostKeyChecking=no ec2-user@ec2-34-205-29-69.compute-1.amazonaws.com 'cd /home/ec2-user/Dest/Dest_frontend && sudo npm install -g http-server && sudo npm install -g pm2 && ln -s dest.html index.html'
+
+      - name: Restart PM2
+        run: |
+          ssh -o StrictHostKeyChecking=no ec2-user@ec2-34-205-29-69.compute-1.amazonaws.com 'cd /home/ec2-user/Dest/Dest_frontend && pm2 start http-server --name dest-frontend -- -p 8086'

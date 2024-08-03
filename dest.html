@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Destinations</title>
+    <link rel="stylesheet" href="dest.css">
+</head>
+<body>
+    <h1>Destinations</h1>
+    <button id="add-destination-btn">Add Destination</button>
+    
+    <div id="add-destination-form" style="display: none;">
+        <h2>Add New Destination</h2>
+        <form id="destination-form">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+            <label for="image">Image URL:</label>
+            <input type="text" id="image" name="image" required>
+            <button type="button" id="submit-destination">Add Destination</button>
+        </form>
+    </div>
+
+    <div id="destinations"></div>
+
+    <!-- Form Modal -->
+    <div id="form-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Apply Now</h2>
+            <form>
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+                <label for="phone">Phone:</label>
+                <input type="tel" id="phone" name="phone" required>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                <button type="button">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="dest.js"></script>
+</body>
+</html>
